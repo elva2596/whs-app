@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import alias from 'whs/tools/alias';
+// import alias from 'whs/tools/alias';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -52,7 +52,6 @@ const config = {
   },
 
   resolve: {
-    alias,
     symlinks: false,
     modules: [path.resolve('node_modules')]
   }

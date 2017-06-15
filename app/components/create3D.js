@@ -2,7 +2,6 @@
  * Created by 路路 on 2017/6/15.
  */
 import * as WHS from 'whs'
-console.log(WHS)
 import {Vector3} from 'three'
 import * as PHYSICS from 'physics-module-ammonext'
 const app = new WHS.App([
@@ -15,7 +14,7 @@ const app = new WHS.App([
   new WHS.ResizeModule(),
   new PHYSICS.WorldModule({
     gravity: new Vector3(0, -10, 0),
-    ammo: '../libs/ammo.js'
+      ammo: 'path/to/ammo.js'
   }),
   new WHS.OrbitControlsModule()
 ]);
