@@ -1,21 +1,117 @@
-# biolgy
+# whitestorm-app-boilerplate
+[WIP] WhitestormJS 2 App boilerplate
 
-> A Vue.js project
+[![Build Status][travis]][travis-url]
+[![deps][deps]][deps-url]
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Discord][discord]][discord-url]
 
-## Build Setup
+[travis]: https://img.shields.io/travis/WhitestormJS/whitestorm-app-boilerplate.svg?style=flat-square
+[travis-url]: https://travis-ci.org/WhitestormJS/whitestorm-app-boilerplate
+[deps]: https://img.shields.io/david/whitestormjs/whitestorm-app-boilerplate.svg
+[deps-url]: https://david-dm.org/whitestormjs/whitestorm-app-boilerplate
+[discord]: https://discordapp.com/api/guilds/238405369859145729/widget.png
+[discord-url]: https://discord.gg/frNetGE
 
-``` bash
-# install dependencies
-npm install
+<a href="http://whs-boilerplate-app.surge.sh/"><img src="http://i.giphy.com/26xByvPQnomT4eANy.gif" width="100%" height="100%"/></a>
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
+## `app.js`
 
-# build for production and view the bundle analyzer report
-npm run build --report
+```javascript
+// Core
+import {App} from '@whs/core/App';
+
+import {
+  ElementModule,
+  SceneModule,
+  CameraModule,
+  RenderingModule
+} from '@whs:app';
+
+import {OrbitModule} from '@whs:controls/orbit';
+
+import {FancyMaterialModule} from './modules/FancyMaterialModule';
+
+// Components
+import {Plane} from '@whs+meshes/Plane';
+import {BasicComponent} from './components/BasicComponent';
+
+const app = new App([
+  new ElementModule({
+    container: document.getElementById('app')
+  }),
+  new SceneModule(),
+  new CameraModule({
+    position: {
+      z: -15
+    }
+  }),
+  new RenderingModule({bgColor: 0x000001}),
+  new OrbitModule()
+]);
+
+app.add(new BasicComponent({
+  modules: [
+    new FancyMaterialModule(app)
+  ]
+}));
+
+app.start();
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## `./components/BasicComponent.js`
+
+```javascript
+import {
+  Mesh,
+  IcosahedronGeometry,
+  MeshBasicMaterial
+} from '@whs^three';
+
+import {MeshComponent} from '@whs/core/MeshComponent';
+
+export class BasicComponent extends MeshComponent {
+  build() {
+    return new Mesh(
+      new IcosahedronGeometry(3, 5),
+      this.applyBridge({
+        material: new MeshBasicMaterial({color: 0xffffff})
+      }).material
+    )
+  }
+}
+```
+
+## `./modules/FancyMaterialModule.js`
+
+```javascript
+import {ShaderMaterial} from '@whs^three';
+import {Loop} from '@whs/core/Loop';
+import glsl from 'glslify';
+
+import vertex from './vertex.glsl';
+import fragment from './fragment.glsl';
+
+export class FancyMaterialModule {
+  constructor(app) {
+    this.bridge = {
+      material() {
+        const material = new ShaderMaterial({
+          uniforms: {
+            time: {value: 1.0}
+          },
+          vertexShader: vertex,
+          fragmentShader: fragment
+        });
+
+        new Loop(c => {
+          material.uniforms.time.value += c.getDelta();
+        }).start(app);
+
+        return material;
+      }
+    }
+  }
+}
+```
