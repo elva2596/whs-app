@@ -4,26 +4,29 @@
 import * as WHS from "whs"
 import {Vector3} from "three"
 // Lights
-const pointLight= new WHS.PointLight({
-  light: {
-    intensity: 0.5,
-    distance: 100
-  },
+const directionLight = new WHS.DirectionalLight( {
+    light: {
+        color: 0xffffff,
+        intensity: 0.2
+    },
 
-  shadow: {
-    fov: 90
-  },
-
-  position: new Vector3(0, 10, 10)
+    position: [10, 20, 10]
 })
+
+  // shadow: {
+  //   fov: 90
+  // },
+
+
 
 const ambientLight = new WHS.AmbientLight({
   light: {
-    intensity: 0.4
+    color:0xfffff,
+    // intensity: 2
   }
 })
 
 export {
   ambientLight,
-  pointLight
+    directionLight
 }

@@ -14,7 +14,7 @@ const app = new WHS.App([
   new WHS.ResizeModule(),
   new PHYSICS.WorldModule({
     gravity: new Vector3(0, -10, 0),
-      ammo: 'path/to/ammo.js'
+      ammo: 'https://cdn.rawgit.com/WhitestormJS/physics-module-ammonext/75634e80/vendor/ammo.js'
   }),
   new WHS.OrbitControlsModule()
 ]);
