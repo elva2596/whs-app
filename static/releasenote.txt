@@ -1,7 +1,0 @@
-1.更改了文件格式
-2.优化了下载
-3.修复点击开始以后控制台报t.forEach不是函数的错误
-4.更新优化后的鼠妇轨迹动画
-5.删除models目录
-6.删除SingleAnimate.js中atrackAnimation方法中的_loop函数，并在modules文件夹中的initialModule.js的loopRender中加入TWEEN.update()
-7.将modules文件夹删除，并且将initialModule.js抽离到libs中的init.js，在html中用script标签的方式加载
